@@ -79,59 +79,59 @@ x_test = np.array(x_test, dtype=np.float32)
 y_test = np.array(y_test, dtype=np.float32)
 
 ##########################################################
-# # Create sequential ANN. 
-# # BUILD MODEL
-# ANN = keras.Sequential([tf.keras.layers.Flatten(input_shape=(300, )),
-#                                 tf.keras.layers.Dropout(0.5),
-#                                 tf.keras.layers.Dense(100, activation='relu'),
-#                                 tf.keras.layers.Dense(3, activation='softmax')])
+# Create sequential ANN. 
+# BUILD MODEL
+ANN = keras.Sequential([tf.keras.layers.Flatten(input_shape=(300, )),
+                                tf.keras.layers.Dropout(0.5),
+                                tf.keras.layers.Dense(100, activation='relu'),
+                                tf.keras.layers.Dense(3, activation='softmax')])
 
-# # MODEL SUMMARY
-# ANN.summary()
+# MODEL SUMMARY
+ANN.summary()
 
-# # COMPILE MODEL
-# ANN.compile(loss="sparse_categorical_crossentropy",
-#             metrics=["accuracy"],
-#             optimizer='adam')
+# COMPILE MODEL
+ANN.compile(loss="sparse_categorical_crossentropy",
+            metrics=["accuracy"],
+            optimizer='adam')
 
-# # FIT THE MODEL TO TRAINING DATA
-# Fit = ANN.fit(x_train, y_train, epochs = 50, validation_data = (x_test, y_test))
+# FIT THE MODEL TO TRAINING DATA
+Fit = ANN.fit(x_train, y_train, epochs = 50, validation_data = (x_test, y_test))
 
-# # PLOT RESULTS
-# # Accuracy
-# plt.plot(Fit.history['accuracy'], label = 'training accuracy', color = 'magenta')
-# plt.plot(Fit.history['val_accuracy'], label = 'validation accuracy', color = 'purple')
-# plt.xlabel('Epoch')
-# plt.ylabel('Accuracy')
-# plt.title("Accuracy over Epochs")
-# plt.ylim([0.5, 1])
-# plt.legend(loc='lower right')
-# plt.show()
-# # Loss
-# plt.plot(Fit.history['loss'], label = 'training loss', color = 'magenta')
-# plt.plot(Fit.history['val_loss'], label = 'validation loss', color = 'purple')
-# plt.xlabel('Epoch')
-# plt.ylabel('Loss')
-# plt.title("Loss over Epochs")
-# plt.legend(loc='lower right')
-# plt.show()
+# PLOT RESULTS
+# Accuracy
+plt.plot(Fit.history['accuracy'], label = 'training accuracy', color = 'magenta')
+plt.plot(Fit.history['val_accuracy'], label = 'validation accuracy', color = 'purple')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.title("Accuracy over Epochs")
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
+plt.show()
+# Loss
+plt.plot(Fit.history['loss'], label = 'training loss', color = 'magenta')
+plt.plot(Fit.history['val_loss'], label = 'validation loss', color = 'purple')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.title("Loss over Epochs")
+plt.legend(loc='lower right')
+plt.show()
 
-# # TEST
-# Test_Loss, Test_Accuracy = ANN.evaluate(x_test, y_test)
+# TEST
+Test_Loss, Test_Accuracy = ANN.evaluate(x_test, y_test)
 
-# # PREDICT & CONFUSION MATRIX
-# predictions = ANN.predict([x_test])
-# Max_Values = np.squeeze(np.array(predictions.argmax(axis=1))) # all our label predictions
-# labels = ['football', 'politics', 'science']
-# cm = confusion_matrix(y_test, Max_Values)
-# ax = plt.subplot()
-# sns.heatmap(cm, annot = True, fmt = 'g', ax = ax, cmap = 'flare')  
-# ax.set_xlabel("Predicted labels")
-# ax.set_ylabel("True labels")
-# ax.set_title("Confusion Matrix")
-# ax.xaxis.set_ticklabels(labels)
-# ax.yaxis.set_ticklabels(labels)
-# plt.show()
+# PREDICT & CONFUSION MATRIX
+predictions = ANN.predict([x_test])
+Max_Values = np.squeeze(np.array(predictions.argmax(axis=1))) # all our label predictions
+labels = ['football', 'politics', 'science']
+cm = confusion_matrix(y_test, Max_Values)
+ax = plt.subplot()
+sns.heatmap(cm, annot = True, fmt = 'g', ax = ax, cmap = 'flare')  
+ax.set_xlabel("Predicted labels")
+ax.set_ylabel("True labels")
+ax.set_title("Confusion Matrix")
+ax.xaxis.set_ticklabels(labels)
+ax.yaxis.set_ticklabels(labels)
+plt.show()
 
 ##########################################################
 # Create sequential CNN
@@ -139,6 +139,10 @@ y_test = np.array(y_test, dtype=np.float32)
 # I will reshape as (30, 10) instead of the (300,1)
 x_train = x_train.reshape(1194, 30, 10)
 x_test = x_test.reshape(299, 30, 10)
+print("The first value of reshaped x_train is: \n", x_train[0])
+print("The shape of reshaped x_train is: ", x_train.shape)
+print("The first value of reshaped x_test is: \n", x_test[0])
+print("The shape of reshaped x_test is: ", x_test.shape)
 
 # BUILD MODEL
 CNN = keras.Sequential([
@@ -197,54 +201,53 @@ ax.yaxis.set_ticklabels(labels)
 plt.show()
 
 ##########################################################
-# # Create sequential CNN
-# # BUILD MODEL
-# LSTM = tf.keras.Sequential([
-#     tf.keras.layers.LSTM(units = 100, input_shape =(300, 1)), 
-#     tf.keras.layers.Dropout(0.2),
-#     tf.keras.layers.Dense(50, activation='relu'),
-#     tf.keras.layers.Dropout(0.2),
-#     tf.keras.layers.Dense(3, activation = 'softmax')])
+# Create sequential CNN
+# BUILD MODEL
+LSTM = tf.keras.Sequential([
+    tf.keras.layers.LSTM(units = 100, input_shape =(300, 1)), 
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(50, activation='relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(3, activation = 'softmax')])
 
-# LSTM.summary()
+LSTM.summary()
 
-# LSTM.compile(loss = keras.losses.SparseCategoricalCrossentropy(from_logits = False), metrics = ["accuracy"], optimizer = "adam")
+LSTM.compile(loss = keras.losses.SparseCategoricalCrossentropy(from_logits = False), metrics = ["accuracy"], optimizer = "adam")
 
-# Fit = LSTM.fit(x_train, y_train, epochs = 10, validation_data =(x_test, y_test))
+Fit = LSTM.fit(x_train, y_train, epochs = 10, validation_data =(x_test, y_test))
 
-# # PLOT RESULTS
-# # Accuracy
-# plt.plot(Fit.history['accuracy'], label = 'training accuracy', color = 'magenta')
-# plt.plot(Fit.history['val_accuracy'], label = 'validation accuracy', color = 'purple')
-# plt.xlabel('Epoch')
-# plt.ylabel('Accuracy')
-# plt.title("Accuracy over Epochs")
-# plt.legend(loc='lower right')
-# plt.show()
-# # Loss
-# plt.plot(Fit.history['loss'], label = 'training loss', color = 'magenta')
-# plt.plot(Fit.history['val_loss'], label = 'validation loss', color = 'purple')
-# plt.xlabel('Epoch')
-# plt.ylabel('Loss')
-# plt.title("Loss over Epochs")
-# plt.legend(loc='lower right')
-# plt.show()
+# PLOT RESULTS
+# Accuracy
+plt.plot(Fit.history['accuracy'], label = 'training accuracy', color = 'magenta')
+plt.plot(Fit.history['val_accuracy'], label = 'validation accuracy', color = 'purple')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.title("Accuracy over Epochs")
+plt.legend(loc='lower right')
+plt.show()
+# Loss
+plt.plot(Fit.history['loss'], label = 'training loss', color = 'magenta')
+plt.plot(Fit.history['val_loss'], label = 'validation loss', color = 'purple')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.title("Loss over Epochs")
+plt.legend(loc='lower right')
+plt.show()
 
-# # TEST
-# test_loss, test_accuracy = LSTM.evaluate(x_test, y_test)
+# TEST
+test_loss, test_accuracy = LSTM.evaluate(x_test, y_test)
 
-# # PREDICT & CONFUSION MATRIX
-# predictions = LSTM.predict([x_test])
-# Max_Values = np.squeeze(np.array(predictions.argmax(axis=1))) # all our label predictions
-# labels = ['football', 'politics', 'science']
-# cm = confusion_matrix(y_test, Max_Values)
-# ax = plt.subplot()
-# sns.heatmap(cm, annot = True, fmt = 'g', ax = ax, cmap = 'flare')  
-# ax.set_xlabel("Predicted labels")
-# ax.set_ylabel("True labels")
-# ax.set_title("Confusion Matrix")
-# ax.xaxis.set_ticklabels(labels)
-# ax.yaxis.set_ticklabels(labels)
-# plt.show()
-
+# PREDICT & CONFUSION MATRIX
+predictions = LSTM.predict([x_test])
+Max_Values = np.squeeze(np.array(predictions.argmax(axis=1))) # all our label predictions
+labels = ['football', 'politics', 'science']
+cm = confusion_matrix(y_test, Max_Values)
+ax = plt.subplot()
+sns.heatmap(cm, annot = True, fmt = 'g', ax = ax, cmap = 'flare')  
+ax.set_xlabel("Predicted labels")
+ax.set_ylabel("True labels")
+ax.set_title("Confusion Matrix")
+ax.xaxis.set_ticklabels(labels)
+ax.yaxis.set_ticklabels(labels)
+plt.show()
 ##########################################################
